@@ -1,8 +1,5 @@
 # -*- conding:utf-8 -*-
 
-from tkinter.messagebox import NO
-
-
 class BitNode(object):
     def __init__(self, data, l_child=None, r_child=None) -> None:
         self.data = data
