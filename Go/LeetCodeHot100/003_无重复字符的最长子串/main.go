@@ -23,6 +23,32 @@
 */
 package main
 
-func main() {
+import "fmt"
 
+func lengthOfLongestSubstring(s string) int {
+	maxLen := 0
+	hashMap := map[byte]int{}
+	// cur用来记录当前最后一个重复字母的前一次出现的位置的后一位
+	cur := 0
+	for i := 0; i < len(s); i++ {
+		if v, ok := hashMap[s[i]]; ok {
+			// 这个比较是以为cur只能前进不能回头, 因为hashMap[s[i]]有可能是一个在cur之前的index的值
+			if v+1 > cur {
+				cur = v + 1
+			}
+		}
+
+		// 计算当前的子字符串长度
+		if i-cur+1 > maxLen {
+			maxLen = i - cur + 1
+		}
+
+		hashMap[s[i]] = i
+	}
+	return maxLen
+}
+
+func main() {
+	max := lengthOfLongestSubstring("abeeeecabcbb")
+	fmt.Println(max)
 }
