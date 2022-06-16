@@ -14,9 +14,10 @@ func print(num int32) {
 }
 
 func main() {
-	var num int32 = 4
-	print(num)
-	print(num << 1)
-	print(num << 2)
-	print(num << 8)
+	var num int32 = 1
+	print(num >> 2)
+	// print(num << 1)
+	// print(num << 2)
+	// print(num << 8)
+
 }
