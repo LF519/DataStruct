@@ -17,6 +17,7 @@ func insertSort1(arr []int) {
 
 }
 
+// insertSort1的不同写法, 两者等价
 func insertSort2(arr []int) {
 	if arr == nil || len(arr) < 2 {
 		return
