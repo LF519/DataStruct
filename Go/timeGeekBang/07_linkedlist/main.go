@@ -62,11 +62,14 @@ func (ll *LinkedList) HasCycle() bool {
 				return true
 			}
 		}
-		return false
+
 	}
+	return false
 }
 
 // MergeSortedList 两个有序链表合并
+// 起一个新链表, 然后对l1和l2的当前节点进行比较, 谁的节点小, 就将该节点放到新链表里
+// 然后该节点继续往下一位, 对l1和l2继续进行比较
 func MergeSortedList(l1, l2 *LinkedList) *LinkedList {
 	if l1 == nil || l1.head == nil || l1.head.next == nil {
 		return l2
@@ -75,6 +78,68 @@ func MergeSortedList(l1, l2 *LinkedList) *LinkedList {
 		return l1
 	}
 
-	l = &LinkedList{head: &ListNode{}}
+	newLinkList := &LinkedList{head: &ListNode{}}
+	cur := newLinkList.head
+	curl1 := l1.head.next
+	curl2 := l2.head.next
+	for curl1 != nil && curl2 != nil {
+		if curl1.value.(int) > curl2.value.(int) {
+			cur.next = curl2
+			curl2 = curl2.next
+		} else {
+			cur.next = curl1
+			curl1 = curl1.next
+		}
+		cur = cur.next
 
+		if curl1 != nil {
+			cur.next = curl1
+		} else if curl2 != nil {
+			cur.next = curl2
+		}
+	}
+
+	return newLinkList
+}
+
+// DeleteBottomN 删除倒数第N个节点
+// 使用快慢指针, 让快指针先走N步
+func (ll *LinkedList) DeleteBottomN(n int) {
+	if n <= 0 || ll.head == nil || ll.head.next == nil {
+		return
+	}
+
+	fast := ll.head
+	for i := 0; i < n && fast != nil; i++ {
+		fast = fast.next
+	}
+
+	if fast == nil {
+		return
+	}
+
+	slow := ll.head
+	for fast.next != nil {
+		fast = fast.next
+		slow = slow.next
+	}
+	slow.next = slow.next.next
+}
+
+// FindMiddleNode 获取中间节点
+// 使用快慢指针
+func (ll *LinkedList) FindMiddleNode() *ListNode {
+	if ll.head == nil || ll.head.next == nil {
+		return nil
+	}
+	if ll.head.next.next == nil {
+		return ll.head.next
+	}
+
+	slow, fast := ll.head, ll.head
+	for fast != nil && fast.next != nil {
+		slow = slow.next
+		fast = fast.next.next
+	}
+	return slow
 }
